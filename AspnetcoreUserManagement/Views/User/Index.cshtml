@@ -1,0 +1,111 @@
+﻿@model UsersPageViewModel
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<div class="container mt-4">
+
+    <h2>Users</h2>
+
+    <!-- Load Users Button -->
+    <form method="post" asp-action="LoadUsers">
+        <button type="submit" class="btn btn-primary mb-3">
+            Load Users
+        </button>
+    </form>
+
+    @if (Model.Users != null && Model.Users.Any())
+    {
+        <!-- SAVE ALL FORM -->
+        <form method="post" asp-action="SaveAll">
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Website</th>
+                        <th>Address</th>
+                        <th>Note</th>
+                        <th>Password</th>
+                        <th>Is Active</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (int i = 0; i < Model.Users.Count; i++)
+                    {
+                        var u = Model.Users[i];
+                        <tr>
+                            <!-- DISPLAY FIELDS + HIDDEN INPUTS -->
+                            <td>
+                                @u.Name
+                                <input type="hidden" asp-for="Users[@i].Name" />
+                            </td>
+                            <td>
+                                @u.Username
+                                <input type="hidden" asp-for="Users[@i].Username" />
+                            </td>
+                            <td>
+                                @u.Email
+                                <input type="hidden" asp-for="Users[@i].Email" />
+                            </td>
+                            <td>
+                                @u.Phone
+                                <input type="hidden" asp-for="Users[@i].Phone" />
+                            </td>
+                            <td>
+                                @u.Website
+                                <input type="hidden" asp-for="Users[@i].Website" />
+                            </td>
+
+                            <!-- ADDRESS -->
+                            <td>
+                                @u.Street, @u.Suite,
+                                @u.City, @u.Zipcode,
+                                @u.Lat, @u.Lng
+
+                                <!-- hidden inputs -->
+                                <input type="hidden" asp-for="Users[@i].Street" />
+                                <input type="hidden" asp-for="Users[@i].Suite" />
+                                <input type="hidden" asp-for="Users[@i].City" />
+                                <input type="hidden" asp-for="Users[@i].Zipcode" />
+                                <input type="hidden" asp-for="Users[@i].Lat" />
+                                <input type="hidden" asp-for="Users[@i].Lng" />
+                            </td>
+
+                            <!-- Editable fields -->
+                            <td>
+                                <input class="form-control"
+                                       asp-for="Users[@i].Note" />
+                            </td>
+
+                            <td>
+                                <input class="form-control"
+                                       asp-for="Users[@i].Password"
+                                       type="password"
+                                       required />
+                            </td>
+
+                            <td class="text-center">
+                                <input asp-for="Users[@i].IsActive" type="checkbox" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-success mt-3">
+                Save All
+            </button>
+
+        </form>
+    }
+    else
+    {
+        <p>No users loaded yet.</p>
+    }
+</div>

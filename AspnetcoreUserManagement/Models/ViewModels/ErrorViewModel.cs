@@ -1,4 +1,4 @@
-namespace AspnetcoreUserManagement.Models
+namespace AspnetcoreUserManagement.Models.ViewModels
 {
     public class ErrorViewModel
     {
