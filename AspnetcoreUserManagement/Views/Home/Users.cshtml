@@ -1,0 +1,25 @@
+﻿@model List<UserDto>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Address.City</td>
+                <td>@user.Phone</td>
+            </tr>
+        }
+    </tbody>
+</table>
