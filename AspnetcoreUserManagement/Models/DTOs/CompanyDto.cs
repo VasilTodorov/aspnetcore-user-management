@@ -1,6 +1,6 @@
 ﻿namespace AspnetcoreUserManagement.Models.DTOs
 {
-    public class Company
+    public class CompanyDto
     {
         public string Name { get; set; }
         public string CatchPhrase { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace AspnetcoreUserManagement.Models.DTOs
 {
-    public class Geo
+    public class GeoDto
     {
         public string Lat { get; set; }
         public string Lng { get; set; }

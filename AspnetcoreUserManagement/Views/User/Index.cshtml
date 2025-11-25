@@ -5,11 +5,11 @@
 }
 
 <div class="container mt-4">
-
+    <h1>@TempData["Error"]</h1>
     <h2>Users</h2>
 
     <!-- Load Users Button -->
-    <form method="post" asp-action="LoadUsers">
+    <form method="get" asp-action="LoadUsers">
         <button type="submit" class="btn btn-primary mb-3">
             Load Users
         </button>
