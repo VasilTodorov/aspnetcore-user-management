@@ -13,7 +13,7 @@ namespace AspnetcoreUserManagement.Models.ViewModels
         public string Username { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required.")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters.")]
+        [StringLength(200, MinimumLength = 6, ErrorMessage = "Password must be at least 6 and less than 200 characters.")]
         [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$",
         ErrorMessage = "Password must contain upper and lower case letters, a number, and a special character.")]
         public string Password { get; set; } = string.Empty;
@@ -22,7 +22,7 @@ namespace AspnetcoreUserManagement.Models.ViewModels
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Phone is required.")]
+        [Required(ErrorMessage = "Phone is required.")]        
         [Phone(ErrorMessage = "Invalid phone format.")]
         public string Phone { get; set; } = string.Empty;
 

@@ -40,11 +40,19 @@ namespace AspnetcoreUserManagement.Controllers
                 TempData["Error"] = $"Error in ModelState";
                 return View("Index", model);
             }
-            
-            await _userManager.ReplaceAllUsersAsync(model.Users);
-            TempData["Success"] = "All users saved successfully!";                       
-            
-            return RedirectToAction("Index");
+
+            try
+            {
+                await _userManager.ReplaceAllUsersAsync(model.Users);
+                TempData["Success"] = "All users saved successfully!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error couldn't save all";
+                return View("Index", model);
+            }
+                                                          
         }
         
     }
