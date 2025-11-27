@@ -15,7 +15,7 @@ Demonstrates the Repository pattern, a Manager layer, external API integration, 
 
 ```bash
 git clone <repository-url>
-cd AspnetcoreUserManagement
+cd aspnetcore-user-management
 ```
 
 ### 2. Configure the database connection
