@@ -25,9 +25,7 @@ namespace AspnetcoreUserManagement.Manageres
         }
 
         public async Task ReplaceAllUsersAsync(List<UserViewModel> models)
-        {
-            if (models == null || !models.Any())
-                return;
+        {            
 
             var users = models.Select(u => {
                 double.TryParse(u.Lat, out double lat);

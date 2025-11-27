@@ -40,7 +40,12 @@ namespace AspnetcoreUserManagement.Controllers
                 TempData["Error"] = $"Error in ModelState";
                 return View("Index", model);
             }
-
+            if (model.Users == null || !model.Users.Any())
+            {
+                TempData["Error"] = $"There are no users to save";
+                return View("Index", model); ;
+            }
+                
             try
             {
                 await _userManager.ReplaceAllUsersAsync(model.Users);
