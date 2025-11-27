@@ -3,16 +3,6 @@
 A user management application built with ASP.NET Core MVC, Entity Framework Core, and SQL Server.  
 Demonstrates the Repository pattern, a Manager layer, external API integration, and Dapper for raw SQL queries.
 
-## Features
-
-- User CRUD operations
-- Server-side validation for emails, latitude/longitude, passwords
-- EF Core with SQL Server migrations
-- Dapper for raw SQL queries
-- Repository and Manager pattern
-- Integration with external APIs (JSONPlaceholder)
-- MVC architecture with Razor views
-
 ## Prerequisites
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -67,50 +57,7 @@ The application will start and be available at:
 
 ### 6. Access the application
 
-Open your browser and navigate to `https://localhost:5001` (or the URL shown in the console).
-
-## Project Structure
-
-```
-AspnetcoreUserManagement/
-├── Controllers/          # MVC controllers
-├── Data/                 # DbContext and repositories (using Dapper)
-├── Manageres/            # Business logic layer
-├── Models/
-│   ├── DTOs/            # Data transfer objects
-│   ├── Entities/        # Database entities
-│   └── ViewModels/      # View models for MVC
-├── Services/             # External API services
-├── Helpers/              # Mapping utilities
-├── Views/                # Razor views
-├── wwwroot/              # Static files
-└── Migrations/           # EF Core migrations
-```
-
-## Database Migrations
-
-### Make sure EF Core tools are installed:
-
-```bash
-dotnet tool install --global dotnet-ef
-```
-### Create a new migration
-
-```bash
-dotnet ef migrations add MigrationName
-```
-
-### Apply migrations
-
-```bash
-dotnet ef database update
-```
-
-### Remove last migration
-
-```bash
-dotnet ef migrations remove
-```
+Open your browser and navigate to `https://localhost:7271` (or the URL shown in the console).
 
 ## Technologies Used
 
@@ -120,23 +67,3 @@ dotnet ef migrations remove
 - **SQL Server** - Database
 - **Bootstrap** - UI framework
 - **jQuery** - JavaScript library
-
-## Troubleshooting
-
-### Database connection issues
-
-If you encounter connection issues:
-1. Verify SQL Server LocalDB is installed: `sqllocaldb info`
-2. Start LocalDB if needed: `sqllocaldb start MSSQLLocalDB`
-3. Check the connection string in `appsettings.json`
-
-### Migration issues
-
-If migrations fail:
-1. Ensure the connection string is correct
-2. Delete the database and reapply migrations: `dotnet ef database drop` then `dotnet ef database update`
-3. Check that EF Core tools are installed: `dotnet tool install --global dotnet-ef`
-
-## License
-
-This project is for educational purposes.
