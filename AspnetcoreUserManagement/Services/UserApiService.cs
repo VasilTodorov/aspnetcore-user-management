@@ -3,10 +3,10 @@ using System.Text.Json;
 
 namespace AspnetcoreUserManagement.Services
 {
-    public class UserService : IUserService
+    public class UserApiService : IUserApiService
     {
         private readonly HttpClient _client;
-        public UserService(HttpClient client)
+        public UserApiService(HttpClient client)
         {
             _client = client;
         }

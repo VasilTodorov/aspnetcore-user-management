@@ -2,7 +2,7 @@
 
 namespace AspnetcoreUserManagement.Services
 {
-    public interface IUserService
+    public interface IUserApiService
     {
         Task<List<UserDto>> GetUsersAsync();
     }
