@@ -22,10 +22,8 @@ namespace AspnetcoreUserManagement.Models.Entities
         public double Lat { get; set; }
         public double Lng { get; set; }
 
-        // Foreign key
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-
         public User User { get; set; } = default!;
     }
 }

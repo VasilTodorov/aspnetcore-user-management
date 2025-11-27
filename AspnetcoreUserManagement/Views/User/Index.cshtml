@@ -19,8 +19,7 @@
         </div>
     }
     <h2>Users</h2>
-
-    <!-- Load Users Button -->
+   
     <form method="get" asp-action="LoadUsers">
         <button type="submit" class="btn btn-primary mb-3">
             Load Users
@@ -28,8 +27,7 @@
     </form>
 
     @if (Model.Users != null && Model.Users.Any())
-    {
-        <!-- SAVE ALL FORM -->
+    {        
         <form method="post" asp-action="SaveAll">
 
             <table class="table table-bordered table-striped">
@@ -54,8 +52,7 @@
                         var u = Model.Users[i];
                         
 
-                        <tr>
-                            <!-- DISPLAY FIELDS + HIDDEN INPUTS -->
+                        <tr>                            
                             <td>
                                 @u.Name
                                 <input type="hidden" asp-for="Users[@i].Name" />
@@ -81,8 +78,7 @@
                                 <input type="hidden" asp-for="Users[@i].Website" />
                                 <span asp-validation-for="Users[@i].Website" class="text-danger"></span>
                             </td>
-
-                            <!-- ADDRESS -->
+                           
                             <td>
                                 @u.Street, @u.Suite, @u.City, @u.Zipcode, @u.Lat, @u.Lng
                                 <input type="hidden" asp-for="Users[@i].Street" />
@@ -94,8 +90,7 @@
                                 <span asp-validation-for="Users[@i].Lat" class="text-danger"></span>
                                 <span asp-validation-for="Users[@i].Lng" class="text-danger"></span>
                             </td>
-
-                            <!-- Editable fields -->
+                           
                             <td>
                                 <input class="form-control" asp-for="Users[@i].Note" />
                             </td>

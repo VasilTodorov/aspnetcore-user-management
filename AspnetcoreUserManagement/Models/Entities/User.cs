@@ -23,15 +23,14 @@ namespace AspnetcoreUserManagement.Models.Entities
         [MaxLength(30)]
         public string Phone { get; set; } = string.Empty;
 
-        public string Website { get; set; } = string.Empty; // nvarchar(max)
+        public string Website { get; set; } = string.Empty; 
 
-        public string Note { get; set; } = string.Empty; // nvarchar(max)
+        public string Note { get; set; } = string.Empty; 
 
         public byte IsActive { get; set; }
 
         public DateTime CreatedAt { get; set; }
-
-        // Navigation property
+        
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
     }
 }
