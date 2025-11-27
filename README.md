@@ -63,8 +63,7 @@ dotnet run
 ```
 
 The application will start and be available at:
-- HTTPS: `https://localhost:5001`
-- HTTP: `http://localhost:5000`
+- HTTPS: `https://localhost:7271`
 
 ### 6. Access the application
 
