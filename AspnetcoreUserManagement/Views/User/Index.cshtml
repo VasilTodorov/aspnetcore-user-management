@@ -5,7 +5,19 @@
 }
 
 <div class="container mt-4">
-    <h1>@TempData["Error"]</h1>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
     <h2>Users</h2>
 
     <!-- Load Users Button -->
@@ -35,59 +47,62 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody>                    
+                    
                     @for (int i = 0; i < Model.Users.Count; i++)
                     {
                         var u = Model.Users[i];
+                        
+
                         <tr>
                             <!-- DISPLAY FIELDS + HIDDEN INPUTS -->
                             <td>
                                 @u.Name
                                 <input type="hidden" asp-for="Users[@i].Name" />
+                                <span asp-validation-for="Users[@i].Name" class="text-danger"></span>
                             </td>
                             <td>
                                 @u.Username
                                 <input type="hidden" asp-for="Users[@i].Username" />
+                                <span asp-validation-for="Users[@i].Username" class="text-danger"></span>
                             </td>
                             <td>
                                 @u.Email
                                 <input type="hidden" asp-for="Users[@i].Email" />
+                                <span asp-validation-for="Users[@i].Email" class="text-danger"></span>
                             </td>
                             <td>
                                 @u.Phone
                                 <input type="hidden" asp-for="Users[@i].Phone" />
+                                <span asp-validation-for="Users[@i].Phone" class="text-danger"></span>
                             </td>
                             <td>
                                 @u.Website
                                 <input type="hidden" asp-for="Users[@i].Website" />
+                                <span asp-validation-for="Users[@i].Website" class="text-danger"></span>
                             </td>
 
                             <!-- ADDRESS -->
                             <td>
-                                @u.Street, @u.Suite,
-                                @u.City, @u.Zipcode,
-                                @u.Lat, @u.Lng
-
-                                <!-- hidden inputs -->
+                                @u.Street, @u.Suite, @u.City, @u.Zipcode, @u.Lat, @u.Lng
                                 <input type="hidden" asp-for="Users[@i].Street" />
                                 <input type="hidden" asp-for="Users[@i].Suite" />
                                 <input type="hidden" asp-for="Users[@i].City" />
                                 <input type="hidden" asp-for="Users[@i].Zipcode" />
                                 <input type="hidden" asp-for="Users[@i].Lat" />
                                 <input type="hidden" asp-for="Users[@i].Lng" />
+                                <span asp-validation-for="Users[@i].Lat" class="text-danger"></span>
+                                <span asp-validation-for="Users[@i].Lng" class="text-danger"></span>
                             </td>
 
                             <!-- Editable fields -->
                             <td>
-                                <input class="form-control"
-                                       asp-for="Users[@i].Note" />
+                                <input class="form-control" asp-for="Users[@i].Note" />
                             </td>
 
                             <td>
-                                <input class="form-control"
-                                       asp-for="Users[@i].Password"
-                                       type="password"
-                                       required />
+                                <input class="form-control" asp-for="Users[@i].Password" type="password" required />
+                                <span asp-validation-for="Users[@i].Password" class="text-danger"></span>
                             </td>
 
                             <td class="text-center">
@@ -95,6 +110,7 @@
                             </td>
                         </tr>
                     }
+
                 </tbody>
             </table>
 
@@ -109,3 +125,7 @@
         <p>No users loaded yet.</p>
     }
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

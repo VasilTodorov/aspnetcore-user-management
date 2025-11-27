@@ -19,15 +19,27 @@ namespace AspnetcoreUserManagement.Data
 
         public async Task DeleteAllAsync()
         {
-            const string sql1 = "DELETE FROM Addresses";
-            const string sql2 = "DELETE FROM Users";
+            using (var con = new SqlConnection(_connectionString))
+            {
+                await con.OpenAsync();
 
-            using var con = Connection;
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        await con.ExecuteAsync("DELETE FROM Addresses", transaction: transaction);
+                        await con.ExecuteAsync("DELETE FROM Users", transaction: transaction);
 
-            await con.ExecuteAsync(sql1);
-            await con.ExecuteAsync(sql2);
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
-
         public async Task InsertUserAsync(User user)
         {
             const string sql = @"
@@ -70,5 +82,61 @@ namespace AspnetcoreUserManagement.Data
                 await con.ExecuteAsync(sqlAddr, addr);
             }
         }
+        public async Task ReplaceAllUsersAsync(List<User> users)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                await con.OpenAsync();
+
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Delete old data
+                        await con.ExecuteAsync("DELETE FROM Addresses", transaction: transaction);
+                        await con.ExecuteAsync("DELETE FROM Users", transaction: transaction);
+
+                        // 2. Insert users
+                        foreach (var user in users)
+                        {
+                            // Insert user
+                            var userId = await con.ExecuteScalarAsync<int>(
+                                @"INSERT INTO Users
+                          (Name, Username, Password, Email, Phone, Website, Note, IsActive, CreatedAt)
+                          VALUES
+                          (@Name, @Username, @Password, @Email, @Phone, @Website, @Note, @IsActive, @CreatedAt);
+                          SELECT CAST(SCOPE_IDENTITY() as int);",
+                                user,
+                                transaction
+                            );
+
+                            // Insert addresses
+                            foreach (var addr in user.Addresses)
+                            {
+                                addr.UserId = userId;
+
+                                await con.ExecuteAsync(
+                                    @"INSERT INTO Addresses
+                              (Street, Suite, City, Zipcode, Lat, Lng, UserId)
+                              VALUES
+                              (@Street, @Suite, @City, @Zipcode, @Lat, @Lng, @UserId)",
+                                    addr,
+                                    transaction
+                                );
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;  // bubble up the error
+                    }
+                }
+            }
+        }
+
+
     }
 }

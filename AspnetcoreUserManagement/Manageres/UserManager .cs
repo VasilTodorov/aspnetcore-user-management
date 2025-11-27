@@ -1,37 +1,39 @@
 ﻿using AspnetcoreUserManagement.Data;
+using AspnetcoreUserManagement.Helpers;
 using AspnetcoreUserManagement.Models.Entities;
 using AspnetcoreUserManagement.Models.ViewModels;
+using AspnetcoreUserManagement.Services;
 
 namespace AspnetcoreUserManagement.Manageres
 {
     public class UserManager : IUserManager
     {
         private readonly IUserRepository _repository;
+        private readonly IUserApiService _service;
 
-        public UserManager(IUserRepository repository)
+        public UserManager(IUserRepository repository, IUserApiService service)
         {
             _repository = repository;
+            _service = service;
+        }
+
+        public async Task<List<UserViewModel>> LoadUserViews()
+        {
+            var userDTOs = await _service.GetUsersAsync();
+            var userViews = userDTOs.ToViewModels();
+            return userViews;
         }
 
         public async Task ReplaceAllUsersAsync(List<UserViewModel> models)
         {
-            //Can not replace users with an empty list
-            //think if it should throw something?
             if (models == null || !models.Any())
-            {                
                 return;
-            }
 
-            // Delete old users
-            await _repository.DeleteAllAsync();            
-
-            // Insert new users
-            foreach (var u in models)
-            {
+            var users = models.Select(u => {
                 double.TryParse(u.Lat, out double lat);
                 double.TryParse(u.Lng, out double lng);
 
-                var user = new User
+                return new User
                 {
                     Name = u.Name,
                     Username = u.Username,
@@ -39,7 +41,7 @@ namespace AspnetcoreUserManagement.Manageres
                     Email = u.Email,
                     Phone = u.Phone,
                     Website = u.Website,
-                    Note = u.Note,
+                    Note = u.Note ?? string.Empty,
                     IsActive = u.IsActive ? (byte)1 : (byte)0,
                     CreatedAt = DateTime.UtcNow,
                     Addresses = new List<Address>
@@ -55,9 +57,11 @@ namespace AspnetcoreUserManagement.Manageres
                         }
                     }
                 };
+            }).ToList();
 
-                await _repository.InsertUserAsync(user);
-            }
+            // one call, one transaction inside
+            await _repository.ReplaceAllUsersAsync(users);
         }
+
     }
 }

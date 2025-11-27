@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.row-error {
+    background-color: #f8d7da; /* light red */
+}
+
+.error-message {
+    color: #721c24;
+    margin-top: 10px;
+    font-weight: bold;
+}

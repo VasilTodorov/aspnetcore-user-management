@@ -6,5 +6,6 @@ namespace AspnetcoreUserManagement.Data
     {
         Task DeleteAllAsync();
         Task InsertUserAsync(User user);
+        Task ReplaceAllUsersAsync(List<User> users);
     }
 }

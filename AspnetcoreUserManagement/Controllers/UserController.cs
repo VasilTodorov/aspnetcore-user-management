@@ -1,26 +1,16 @@
-﻿using AspnetcoreUserManagement.Helpers;
-using AspnetcoreUserManagement.Models.DTOs;
-using AspnetcoreUserManagement.Models.ViewModels;
-using AspnetcoreUserManagement.Models.Entities;
-using AspnetcoreUserManagement.Services;
-using Dapper;
+﻿using AspnetcoreUserManagement.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using static System.Net.WebRequestMethods;
-using AspnetcoreUserManagement.Data;
 using AspnetcoreUserManagement.Manageres;
 
 namespace AspnetcoreUserManagement.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserApiService _uesrService;
+        
         private readonly IUserManager _userManager;
 
-        public UserController(IUserApiService userService, IUserManager userManager)
-        {
-            _uesrService = userService;
+        public UserController( IUserManager userManager)
+        {           
             _userManager = userManager;            
         }
         public IActionResult Index()
@@ -30,9 +20,8 @@ namespace AspnetcoreUserManagement.Controllers
 
         [HttpGet]
         public async Task<IActionResult> LoadUsers()
-        {
-            var userDTOs = await _uesrService.GetUsersAsync();        
-            var userViews = userDTOs.ToViewModels();
+        {            
+            var userViews = await _userManager.LoadUserViews();
 
             var vm = new UsersPageViewModel
             {
@@ -41,9 +30,10 @@ namespace AspnetcoreUserManagement.Controllers
 
             return View("Index", vm);
         }
-        
+        [HttpPost]
         public async Task<IActionResult> SaveAll(UsersPageViewModel model)
-        {           
+        {   
+            //ToDo make validation
             if (!ModelState.IsValid)
             {
                 // Return the same view with validation errors
@@ -52,14 +42,10 @@ namespace AspnetcoreUserManagement.Controllers
             }
             
             await _userManager.ReplaceAllUsersAsync(model.Users);
-
-            TempData["Success"] = "All users saved successfully!";
+            TempData["Success"] = "All users saved successfully!";                       
+            
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Manage()
-        {
-            var users = await _uesrService.GetUsersAsync();
-            return View(users);
-        }
+        
     }
 }
